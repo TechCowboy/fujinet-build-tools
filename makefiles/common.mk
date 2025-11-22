@@ -14,5 +14,3 @@ ifeq (,$(wildcard $(VERSION_FILE)))
 else
 	VERSION_STRING := $(file < $(VERSION_FILE))
 endif
-
-CFLAGS += -Osir

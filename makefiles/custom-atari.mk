@@ -32,23 +32,33 @@ ATARI_CACHE_DIR := $(CACHE_DIR)/atari
 	$(call MKDIR,$(DIST_DIR)/atr)
 	$(call MKDIR,$(CACHE_DIR))
 	$(call MKDIR,$(ATARI_CACHE_DIR))
-	cp $(DIST_DIR)/$(PROGRAM_TGT)$(SUFFIX) $(DIST_DIR)/atr/$(PROGRAM)$(SUFFIX)
-	@if [ -f $(DIST_DIR)/$(PROGRAM).atr ] ; then \
-		rm $(DIST_DIR)/$(PROGRAM).atr ; \
+
+	# Copy the built program (with or without target in the name) into atr staging dir
+	cp $(DIST_DIR)/$(PROG_BASENAME)$(SUFFIX) $(DIST_DIR)/atr/$(PROGRAM)$(SUFFIX)
+
+	# Final .atr name respects APPEND_TARGET via PROG_BASENAME
+	@if [ -f "$(DIST_DIR)/$(PROG_BASENAME).atr" ] ; then \
+		rm "$(DIST_DIR)/$(PROG_BASENAME).atr" ; \
 	fi
+
 	@if [ ! -f $(ATARI_CACHE_DIR)/picoboot.bin ] ; then \
 		echo "Downloading picoboot.bin"; \
 		curl -sL $(PICOBOOT_DOWNLOAD_URL) -o $(ATARI_CACHE_DIR)/picoboot.bin; \
 	fi
-	dir2atr -m -S -B $(ATARI_CACHE_DIR)/picoboot.bin $(DIST_DIR)/$(PROGRAM).atr $(DIST_DIR)/atr
+
+	dir2atr -m -S -B $(ATARI_CACHE_DIR)/picoboot.bin \
+		$(DIST_DIR)/$(PROG_BASENAME).atr \
+		$(DIST_DIR)/atr
+
 	rm -rf $(DIST_DIR)/atr
+
 
 ################################################################
 # TESTING / EMULATOR
 
 # Specify ATARI_EMULATOR=[ALTIRRA|ATARI800] to set which one to run, default is ALTIRRA
 
-ALTIRRA ?= $(ALTIRRA_HOME)/Altirra64.exe \
+ALTIRRA ?= $(ALTIRRA_BIN) \
   $(XS)/portable $(XS)/portablealt:altirra-debug.ini \
 
 # Additional args that can be copied into the above lines
@@ -65,3 +75,6 @@ ifeq ($(ATARI_EMULATOR),)
 atari_EMUCMD := $(ALTIRRA)
 endif
 
+atari_EMU_PROG := $(DIST_DIR)/$(PROG_BASENAME)$(SUFFIX)
+
+CFLAGS += -Osir

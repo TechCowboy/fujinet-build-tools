@@ -54,6 +54,7 @@ mv "${TARGET_APP_DIR}/makefiles/Makefile_sample_change" "${TARGET_APP_DIR}/Makef
 sed -i.bu "s#__APP_NAME__#${APP_NAME}#g;s#__PARENT_RELATIVE_DIR__#.#g" "${TARGET_APP_DIR}/Makefile"
 sed -i.bu "s#__PARENT_RELATIVE_DIR__#.#g" "${TARGET_APP_DIR}/makefiles/build.mk"
 sed -i.bu "s#__PARENT_RELATIVE_DIR__#.#g" "${TARGET_APP_DIR}/makefiles/common.mk"
+sed -i.bu "s#__PARENT_RELATIVE_DIR__#.#g" "${TARGET_APP_DIR}/makefiles/compiler.mk"
 sed -i.bu "s#__PARENT_RELATIVE_DIR__#.#g" "${TARGET_APP_DIR}/makefiles/custom-apple2.mk"
 
 # remove any backup files created by sed because macos

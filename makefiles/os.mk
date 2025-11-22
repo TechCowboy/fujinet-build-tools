@@ -1,10 +1,6 @@
 ###################################################################
 # Platform Mapping, OS specifics, and Emulator settings
 ###################################################################
-ifeq ($(DEBUG),true)
-    $(info >Starting os.mk)
-endif
-
 
 ifeq ($(CURRENT_TARGET),)
 $(error Missing value for CURRENT_TARGET)
@@ -12,19 +8,40 @@ endif
 
 CURRENT_PLATFORM_apple2 := apple2
 CURRENT_PLATFORM_apple2enh := apple2
+CURRENT_PLATFORM_apple2gs := apple2
+
 CURRENT_PLATFORM_atari := atari
 CURRENT_PLATFORM_atarixl := atari
+
 CURRENT_PLATFORM_c64 := c64
 CURRENT_PLATFORM_c128 := c64
 CURRENT_PLATFORM_c16 := c64
 CURRENT_PLATFORM_pet := c64
 CURRENT_PLATFORM_plus4 := c64
-#CURRENT_PLATFORM_x16 := c64
 CURRENT_PLATFORM_cbm510 := c64
 CURRENT_PLATFORM_cbm610 := c64
 CURRENT_PLATFORM_vic20 := c64
 
+CURRENT_PLATFORM_coco := coco
+
+CURRENT_PLATFORM_pmd85 := pmd85
+
+CURRENT_PLATFORM_msdos := msdos
+
+CURRENT_PLATFORM_adam := adam
+
 CURRENT_PLATFORM = $(CURRENT_PLATFORM_$(CURRENT_TARGET))
+
+# platform specific src paths (PSP)
+# These allow us to add additional directories (each entry can have space separated list) to a TARGET
+# Used for apple2/enh vs apple2gs, but other platforms if they had different compiled code could use it.
+
+PSP_apple2 := apple2-6502
+PSP_apple2enh := apple2-6502
+PSP_apple2gs := apple2gs
+
+PLATFORM_SPECIFIC_PATHS := $(PSP_$(CURRENT_TARGET))
+
 
 ifeq '$(findstring ;,$(PATH))' ';'
     detected_OS := Windows
@@ -59,4 +76,7 @@ POSTEMUCMD :=
 
 ifeq ($(EMUCMD),)
   EMUCMD = $($(CURRENT_TARGET)_EMUCMD)
+endif
+ifeq ($(EMU_PROG),)
+  EMU_PROG = $($(CURRENT_TARGET)_EMU_PROG)
 endif

@@ -3,7 +3,7 @@
 Filenames that the build understands are:
 
 - `*.c` C Source Files
-- `*.s` Assembler files
+- `*.s|asm` Assembler files
 
 You can add `*.inc` or `*.h` files into any path detailed below for inclusion from assembler or C files.
 
@@ -18,7 +18,7 @@ The full `src` dir has the following structure:
 src
 ├── main.c              # all targets compile files in src/ as part of their build
 ├── main.h
-├── *.c|h|s             #  ... and any other C, H or S file you wish to include
+├── *.c|h               #  ... and any other C, H file you wish to include
 │
 ├── common/             # common to all targets, including its sub-dirs
 │   ├── mycommon.c
